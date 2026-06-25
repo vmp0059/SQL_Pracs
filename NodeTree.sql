@@ -31,3 +31,22 @@ SELECT
 ELSE 'INTERNAL'
 END AS node_type
 FROM nodes n1;
+
+-- //Conditional Aggregation function
+SELECT
+  SUM(CASE WHEN item = 'apple'  THEN COALESCE(quantity, 0) ELSE 0 END) AS apples_sold,
+  SUM(CASE WHEN item = 'orange' THEN COALESCE(quantity, 0) ELSE 0 END) AS oranges_sold
+FROM sales;
+
+-- Bonus Calculation using CASE and COALESCE
+SELECT
+  emp_id,
+  salary,
+  performance_score,
+  CASE
+    WHEN COALESCE(performance_score, -1) = -1 THEN 0
+    WHEN performance_score >= 90 THEN salary * 0.20
+    WHEN performance_score >= 75 THEN salary * 0.10
+    ELSE salary * 0.05
+  END AS bonus_amount
+FROM employees;
